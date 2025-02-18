@@ -1,0 +1,12 @@
+---
+
+- hosts: db
+  gather_facts: no #facts 수집하지 마라!! so 애러가 난다
+
+  tasks:
+  - name: Print all facts
+    ansible.builtin.debug:
+      msg: >
+        The default IPv4 address of {{ ansible_facts.fqdn }} 
+        is {{ ansible_facts.default_ipv4.address }}
+

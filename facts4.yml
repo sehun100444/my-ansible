@@ -1,0 +1,15 @@
+---
+
+- hosts: db
+  gather_facts: no #facts 수집하지 마라!! so 애러가 난다
+
+  tasks:
+  - name: Manually gather facts
+    ansible.builtin.setup: # 밑에 특정 facts만을 수집한다. so facts3.yml의 에러가 고쳐진다.
+
+  - name: Print all facts
+    ansible.builtin.debug:
+      msg: >
+        The default IPv4 address of {{ ansible_facts.fqdn }} 
+        is {{ ansible_facts.default_ipv4.address }}
+
