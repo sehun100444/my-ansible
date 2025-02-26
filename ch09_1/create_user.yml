@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  vars_files:
+    - vars/secret.yml
+
+  tasks:
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ item.userid }}"
+        password: "{{ item.userpw | password_hash('sha512') }}"
+        state: present
+      loop: "{{ user_info }}"
