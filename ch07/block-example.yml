@@ -1,0 +1,28 @@
+---
+
+- hosts: tnode2-ubuntu.exp.com
+  vars:
+    logdir: /var/log/daily_log
+    logfile: todays.log
+  tasks:
+    - name: Configure Log Env
+      block:
+        - name: (block) Find Directory
+          ansible.builtin.find:
+            paths: "{{ logdir }}"
+          register: result
+          failed_when: "'Not all paths' in result.msg"
+
+      rescue:
+        - name: (rescue) Make Directory when Not found Directory
+          ansible.builtin.file:
+            path: "{{ logdir }}"
+            state: directory
+            mode: '0775'
+
+      always:
+        - name: (always) Create File
+          ansible.builtin.file:
+            path: "{{ logdir }}/{{ logfile }}"
+            state: touch
+            mode: '0644'
